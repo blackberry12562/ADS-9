@@ -10,8 +10,12 @@ BST<std::string> makeTree(const char* filename) {
             text.erase();
             while (true) {
                 char chr = file.get();
-Expand All
-	@@ -20,10 +19,10 @@ BST<std::string> makeTree(const char* filename) {
+                if (chr >= 'A' && chr < 'Z') {
+                    chr += 32;
+                    text += chr;
+                } else if (chr >= 'a' && chr <= 'z') {
+                    text += chr;
+                } else {
                     break;
                 }
             }
@@ -26,4 +30,4 @@ Expand All
         std::cout << "File error!" << std::endl;
     }
     return tree;
-}        
+}
