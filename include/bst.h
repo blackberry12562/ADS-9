@@ -2,6 +2,8 @@
 #ifndef INCLUDE_BST_H_
 #define INCLUDE_BST_H_
 #include <iostream>
+#include <fstream>
+
 template <typename T>
 class BST {
  private:
@@ -13,7 +15,7 @@ class BST {
     };
     Node* root = nullptr;
     int searchNodeTree(Node* root, const T& value) {
-        if (node == nullptr) {
+        if (root == nullptr) {
             return 0;
         } else if (root->val > value) {
             return searchNodeTree(root->l, value);
@@ -32,15 +34,30 @@ class BST {
         return (lDepth > rDepth) ? lDepth + 1 : rDepth + 1;
     }
     Node* newNodeTree(Node* root, const T& value) {
-Expand All
-	@@ -53,10 +53,10 @@ class BST {
-        return searchNodeTree(node, value);
+        if (root == nullptr) {
+            root = new Node;
+            root->val = value;
+            root->count = 1;
+            root->l = root->r = nullptr;
+        } else if (root->val < value) {
+            root->r = newNodeTree(root->r, value);
+        } else if (root->val > value) {
+            root->l = newNodeTree(root->l, value);
+        } else {
+            root->count+=1;
+        }
+        return root;
+    }
+
+ public:
+    int search(const T& value) {
+        return searchNodeTree(root, value);
     }
     int depth() {
         return getDepthTree(root) - 1;
     }
     void newNode(const T& value) {
-        node = newNodeTree(root, value);
+        root = newNodeTree(root, value);
     }
 };
 
